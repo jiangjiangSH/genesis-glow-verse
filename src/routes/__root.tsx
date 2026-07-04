@@ -96,6 +96,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "twitter:description",
         content: "以文字构建重生宇宙，以 AI 撕裂视觉边界。",
       },
+      { name: "description", content: "小马的个人 IP 官网：以文字构建重生宇宙，以 AI 撕裂视觉边界。网文连载、AI 影像、镜头切面与商业合作。" },
+      { property: "og:description", content: "小马的个人 IP 官网：以文字构建重生宇宙，以 AI 撕裂视觉边界。网文连载、AI 影像、镜头切面与商业合作。" },
+      { name: "twitter:description", content: "小马的个人 IP 官网：以文字构建重生宇宙，以 AI 撕裂视觉边界。网文连载、AI 影像、镜头切面与商业合作。" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d20d2b86-eb75-484e-977d-91faa6de8d95/id-preview-c1586955--4c9a1f56-ca99-4cd3-b8ba-1ea7c5c64493.lovable.app-1783182695063.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d20d2b86-eb75-484e-977d-91faa6de8d95/id-preview-c1586955--4c9a1f56-ca99-4cd3-b8ba-1ea7c5c64493.lovable.app-1783182695063.png" },
     ],
     links: [
       {
