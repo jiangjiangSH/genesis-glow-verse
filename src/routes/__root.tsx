@@ -77,14 +77,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "白给的艺术 · 小马的创作宇宙" },
+      {
+        name: "description",
+        content:
+          "小马的个人 IP 官网：以文字构建重生宇宙，以 AI 撕裂视觉边界。网文连载、AI 影像、镜头切面与商业合作。",
+      },
+      { name: "author", content: "小马" },
+      { property: "og:title", content: "白给的艺术 · 小马的创作宇宙" },
+      {
+        property: "og:description",
+        content: "以文字构建重生宇宙，以 AI 撕裂视觉边界。",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "白给的艺术 · 小马的创作宇宙" },
+      {
+        name: "twitter:description",
+        content: "以文字构建重生宇宙，以 AI 撕裂视觉边界。",
+      },
     ],
     links: [
       {
@@ -92,6 +103,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
