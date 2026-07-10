@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
-import { Github, ArrowUp } from "lucide-react";
+import { Github, ArrowUp, QrCode } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
+import { contact } from "@/data/site";
+import { useContactDialog } from "./ContactDialogContext";
 
 function TiktokIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -18,13 +20,14 @@ function RedbookIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-const socials = [
-  { href: "#", label: "抖音", Icon: TiktokIcon },
-  { href: "#", label: "小红书", Icon: RedbookIcon },
-  { href: "#", label: "GitHub", Icon: Github },
-];
+const socialIconMap: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+  douyin: TiktokIcon,
+  xiaohongshu: RedbookIcon,
+  github: Github,
+};
 
 export function ContactSection() {
+  const { open: openContact } = useContactDialog();
   return (
     <section id="contact" className="relative w-full px-6 py-32 sm:py-40">
       <div className="mx-auto max-w-4xl">
@@ -63,19 +66,30 @@ export function ContactSection() {
                     "linear-gradient(135deg, var(--gold-soft), var(--gold), var(--cyber))",
                 }}
               >
-                小马
+                {contact.name}
               </span>
             </p>
             <p className="max-w-md text-sm text-muted-foreground">
               网文改编 / 视频代言 / AI 视觉委托 / 品牌联名，欢迎在以下平台私信。
             </p>
 
+            <button
+              type="button"
+              onClick={openContact}
+              className="group inline-flex items-center gap-2 rounded-full border border-gold/60 bg-gold/10 px-6 py-3 text-sm text-gold transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
+            >
+              <QrCode className="h-4 w-4" />
+              联系 {contact.name} · 微信二维码
+            </button>
+
             <div className="mt-2 flex items-center gap-4">
-              {socials.map(({ href, label, Icon }) => (
+              {contact.socials.map((s) => {
+                const Icon = socialIconMap[s.key] ?? Github;
+                return (
                 <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
+                  key={s.key}
+                  href={s.href}
+                  aria-label={s.label}
                   className="group relative flex h-12 w-12 items-center justify-center rounded-full border border-white/10 text-foreground/70 transition-all duration-500 hover:-translate-y-0.5 hover:border-cyber/60 hover:text-cyber"
                 >
                   <span
@@ -87,13 +101,14 @@ export function ContactSection() {
                   />
                   <Icon className="relative h-5 w-5" />
                 </a>
-              ))}
+                );
+              })}
             </div>
           </div>
         </motion.div>
 
         <footer className="mt-24 flex flex-col items-center justify-between gap-4 border-t border-white/8 pt-8 text-xs text-muted-foreground sm:flex-row">
-          <span>© {new Date().getFullYear()} 白给的艺术 · 小马 · All rights reserved.</span>
+          <span>© {new Date().getFullYear()} 白给的艺术 · {contact.name} · All rights reserved.</span>
           <a
             href="#top"
             className="group inline-flex items-center gap-2 transition-colors hover:text-foreground"
