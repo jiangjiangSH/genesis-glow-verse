@@ -19,7 +19,7 @@ export function Hero() {
           className="mb-8 flex items-center gap-3 text-gold/80"
         >
           <span className="h-px w-8 bg-gold/60" />
-          <span className="font-mono-tight">Xiao Ma · Since 2020</span>
+          <span className="font-mono-tight">Jiang · Since 2020</span>
           <span className="h-px w-8 bg-gold/60" />
         </motion.div>
 
