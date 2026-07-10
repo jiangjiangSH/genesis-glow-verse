@@ -4,6 +4,7 @@ import { NavBar } from "@/components/landing/NavBar";
 import { NovelShowcase } from "@/components/landing/NovelShowcase";
 import { GallerySection } from "@/components/landing/GallerySection";
 import { ContactSection } from "@/components/landing/ContactSection";
+import { ContactDialogProvider } from "@/components/landing/ContactDialogContext";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -11,12 +12,14 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="relative min-h-screen w-full overflow-x-clip bg-background text-foreground">
-      <NavBar />
-      <Hero />
-      <NovelShowcase />
-      <GallerySection />
-      <ContactSection />
-    </main>
+    <ContactDialogProvider>
+      <main className="relative min-h-screen w-full overflow-x-clip bg-background text-foreground">
+        <NavBar />
+        <Hero />
+        <NovelShowcase />
+        <GallerySection />
+        <ContactSection />
+      </main>
+    </ContactDialogProvider>
   );
 }
