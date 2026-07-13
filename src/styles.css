@@ -55,7 +55,7 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.5rem;
   --background: oklch(0.06 0.005 260);
   --foreground: oklch(0.97 0.005 260);
   --card: oklch(0.09 0.006 260);
@@ -72,7 +72,7 @@
   --accent-foreground: oklch(0.1 0.01 260);
   --destructive: oklch(0.6 0.22 25);
   --destructive-foreground: oklch(0.98 0.003 260);
-  --border: oklch(1 0 0 / 0.08);
+  --border: oklch(1 0 0 / 0.09);
   --input: oklch(1 0 0 / 0.12);
   --ring: oklch(0.78 0.12 82 / 0.55);
   --gold: oklch(0.78 0.12 82);
@@ -144,13 +144,10 @@
 
 @utility gold-glow {
   box-shadow:
-    0 0 0 1px color-mix(in oklab, var(--gold) 55%, transparent),
-    0 10px 40px -10px color-mix(in oklab, var(--gold) 55%, transparent),
-    inset 0 1px 0 color-mix(in oklab, var(--gold-soft) 60%, transparent);
+    0 0 0 1px color-mix(in oklab, var(--gold) 40%, transparent),
+    0 6px 24px -12px color-mix(in oklab, var(--gold) 40%, transparent);
 }
 
 @utility cyber-glow {
-  box-shadow:
-    0 0 0 1px color-mix(in oklab, var(--cyber) 45%, transparent),
-    0 10px 40px -10px color-mix(in oklab, var(--cyber) 50%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--cyber) 35%, transparent);
 }
