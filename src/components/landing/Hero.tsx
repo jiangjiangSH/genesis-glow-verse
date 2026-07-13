@@ -1,82 +1,65 @@
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown } from "lucide-react";
-import { AnimatedBackground } from "./AnimatedBackground";
+import { ArrowRight, BookOpen, Camera } from "lucide-react";
+import heroPhoto from "@/assets/photo-4.jpg";
 import { GlowButton } from "./GlowButton";
 
 export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden"
+      className="relative flex min-h-[78svh] w-full items-end overflow-hidden pt-24 sm:min-h-[82svh] sm:items-center"
     >
-      <AnimatedBackground />
+      {/* Real photograph as full-bleed hero */}
+      <img
+        src={heroPhoto}
+        alt="Jiang 拍摄的江南水乡与远山天际线"
+        fetchPriority="high"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      {/* Legibility overlays — keep photo detail visible */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/55 to-background/25"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-background via-background/60 to-transparent"
+      />
 
-      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-6 text-center">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-16 sm:pb-24">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="mb-8 flex items-center gap-3 text-gold/80"
+          transition={{ duration: 0.6 }}
+          className="max-w-2xl"
         >
-          <span className="h-px w-8 bg-gold/60" />
-          <span className="font-mono-tight">Jiang · Since 2020</span>
-          <span className="h-px w-8 bg-gold/60" />
-        </motion.div>
+          <p className="font-mono-tight text-gold/90">Jiang · Personal Portfolio</p>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.2, 0.7, 0.2, 1] }}
-          className="font-display text-[clamp(3.5rem,10vw,7.5rem)] font-light leading-[0.95] tracking-tight text-foreground"
-        >
-          <span className="block">白给的</span>
-          <span
-            className="block bg-clip-text text-transparent"
-            style={{
-              backgroundImage:
-                "linear-gradient(135deg, color-mix(in oklab, var(--gold-soft) 95%, white) 0%, var(--gold) 50%, color-mix(in oklab, var(--cyber) 70%, var(--gold)) 100%)",
-            }}
-          >
-            艺术
-          </span>
-        </motion.h1>
+          <h1 className="mt-6 font-display text-5xl font-light leading-[1.05] text-foreground sm:text-6xl md:text-7xl">
+            Jiang 的
+            <span className="block">创作世界</span>
+          </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.3 }}
-          className="mt-8 max-w-xl text-balance text-base text-muted-foreground sm:text-lg"
-        >
-          以文字构建重生宇宙，以 AI 撕裂视觉边界。
-        </motion.p>
+          <p className="mt-6 text-lg text-foreground/85 sm:text-xl">
+            小说创作与风景摄影。
+          </p>
+          <p className="mt-2 max-w-lg text-base leading-relaxed text-foreground/70">
+            在文字中构建世界，在光影里记录远方。目前有两部小说分别在番茄小说与七猫小说连载。
+          </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.5 }}
-          className="mt-12 flex flex-col items-center gap-4 sm:flex-row"
-        >
-          <GlowButton href="#novels">
-            进入网文宇宙
-            <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </GlowButton>
-          <GlowButton href="#gallery" variant="ghost">
-            浏览视觉沙盒
-          </GlowButton>
+          <div className="mt-10 flex flex-wrap items-center gap-3">
+            <GlowButton href="#novels" aria-label="阅读 Jiang 的小说">
+              <BookOpen className="h-4 w-4" />
+              <span>阅读小说</span>
+              <ArrowRight className="h-4 w-4" />
+            </GlowButton>
+            <GlowButton href="#gallery" variant="ghost" aria-label="浏览 Jiang 的摄影作品">
+              <Camera className="h-4 w-4" />
+              <span>浏览摄影</span>
+            </GlowButton>
+          </div>
         </motion.div>
       </div>
-
-      {/* Scroll cue */}
-      <motion.a
-        href="#novels"
-        aria-label="向下滚动"
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-muted-foreground/70 hover:text-foreground"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: [0, 8, 0] }}
-        transition={{ opacity: { delay: 1.4, duration: 0.6 }, y: { duration: 2.4, repeat: Infinity } }}
-      >
-        <ChevronDown className="h-6 w-6" />
-      </motion.a>
     </section>
   );
 }
