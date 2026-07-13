@@ -13,16 +13,16 @@ export const GlowButton = forwardRef<HTMLAnchorElement, Props>(function GlowButt
   ref,
 ) {
   const base =
-    "group relative inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+    "group relative inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-md px-6 text-sm font-medium leading-none transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none";
 
   if (variant === "ghost") {
     return (
       <a
         ref={ref}
-        className={`${base} border border-white/15 bg-white/[0.02] text-foreground/90 backdrop-blur-md hover:border-cyber/60 hover:text-foreground ${className}`}
+        className={`${base} border border-white/20 bg-white/[0.03] text-foreground hover:border-white/40 hover:bg-white/[0.06] ${className}`}
         {...rest}
       >
-        <span className="relative z-10">{children}</span>
+        <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
       </a>
     );
   }
@@ -30,30 +30,10 @@ export const GlowButton = forwardRef<HTMLAnchorElement, Props>(function GlowButt
   return (
     <a
       ref={ref}
-      className={`${base} text-primary-foreground gold-glow hover:-translate-y-0.5 ${className}`}
-      style={{
-        background:
-          "linear-gradient(135deg, color-mix(in oklab, var(--gold) 92%, white) 0%, var(--gold) 55%, color-mix(in oklab, var(--gold) 70%, black) 100%)",
-      }}
+      className={`${base} bg-gold text-primary-foreground hover:brightness-110 ${className}`}
       {...rest}
     >
-      {/* animated shine */}
-      <span
-        className="pointer-events-none absolute inset-0 overflow-hidden rounded-full"
-        aria-hidden
-      >
-        <span className="absolute -left-1/2 top-0 h-full w-1/2 -skew-x-12 bg-white/30 opacity-0 blur-md transition-all duration-700 group-hover:left-[120%] group-hover:opacity-100" />
-      </span>
-      {/* outer cyber pulse on hover */}
-      <span
-        className="pointer-events-none absolute inset-0 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{
-          boxShadow:
-            "0 0 40px 6px color-mix(in oklab, var(--cyber) 45%, transparent)",
-        }}
-        aria-hidden
-      />
-      <span className="relative z-10 tracking-wide">{children}</span>
+      <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
     </a>
   );
 });
