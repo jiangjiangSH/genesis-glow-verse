@@ -8,9 +8,16 @@ import photo2 from "@/assets/photo-2.jpg";
 import photo3 from "@/assets/photo-3.jpg";
 import photo4 from "@/assets/photo-4.jpg";
 
+export type Platform = "番茄小说" | "七猫小说";
+
+export interface BookLink {
+  platform: Platform;
+  /** Real reading URL. Leave empty string when the link is not yet available. */
+  url: string;
+}
+
 export interface Book {
   index: string;
-  platform: "番茄阅读" | "七猫小说";
   status: string;
   title: string;
   genre: string;
@@ -18,14 +25,12 @@ export interface Book {
   synopsis: string;
   cover: string;
   coverAlt: string;
-  /** Replace with the real reading URL when available. */
-  readUrl: string;
+  links: BookLink[];
 }
 
 export const books: Book[] = [
   {
     index: "NO.01",
-    platform: "番茄阅读",
     status: "连载中",
     title: "重生断亲后，假千金全家悔疯了",
     genre: "现代都市 · 重生 · 真假千金 · 断亲逆袭",
@@ -34,11 +39,10 @@ export const books: Book[] = [
       "重活一世，她不再是那个被豪门收养、努力讨好的乖顺假千金。撕破温情表象，她主动断亲，走出金丝笼；曾经辜负她、算计她的家族，从疑惑到崩溃，一步一步悔到发疯。都市豪门、家族棋局、职场翻身、感情克制——所有人都会看清：她值得的，从来不是残羹冷炙。",
     cover: novel1,
     coverAlt: "《重生断亲后，假千金全家悔疯了》封面",
-    readUrl: "https://fanqienovel.com/",
+    links: [{ platform: "番茄小说", url: "" }],
   },
   {
     index: "NO.02",
-    platform: "七猫小说",
     status: "连载中",
     title: "皇兄送我去和亲，我扶战损质子破局",
     genre: "古言 · 和亲 · 权谋 · 战损质子 · 乱世破局",
@@ -47,7 +51,7 @@ export const books: Book[] = [
       "皇兄一道诏书，把她送去和亲，塞外风雪迎接她的，是一个满身战伤、被本国抛弃的年轻质子。她本应认命，他本应赴死；她偏要看看，两个被弃子的人，能不能在敌国的棋盘上，为自己扳回一局。宫阙、边塞、旌旗、暗涌——权谋徐徐展开，锋芒藏于袖间。",
     cover: novel2,
     coverAlt: "《皇兄送我去和亲，我扶战损质子破局》封面",
-    readUrl: "https://www.qimao.com/",
+    links: [{ platform: "七猫小说", url: "" }],
   },
 ];
 
@@ -82,46 +86,55 @@ export const galleryItems: GalleryItem[] = [
   {
     src: photo1,
     alt: "雨夜霓虹街，独行者背影",
-    meta: "CITY · NIGHT",
+    meta: "City · Night",
     span: "full",
     ratio: "aspect-[16/9]",
   },
   {
     src: photo2,
     alt: "舞台聚光下的孤独轮廓",
-    meta: "STAGE · LIGHT",
+    meta: "Stage · Light",
     span: "tall",
     ratio: "aspect-[4/5]",
   },
   {
     src: photo3,
     alt: "雨夜车窗边的暖调人像",
-    meta: "PORTRAIT · RAIN",
+    meta: "Portrait · Rain",
     span: "tall",
     ratio: "aspect-[4/5]",
   },
   {
     src: photo4,
     alt: "江南水乡与现代天际线的对望",
-    meta: "JIANGNAN · SKYLINE",
+    meta: "Jiangnan · Skyline",
     span: "full",
     ratio: "aspect-[16/9]",
   },
 ];
 
+export const about = {
+  heading: "关于我",
+  eyebrow: "About · Jiang",
+  paragraphs: [
+    "我是 Jiang，一个喜欢在文字里造世界、在光影里记远方的普通创作者。",
+    "白天写小说，把脑子里翻涌的重生、权谋、都市与古代故事一点点落成章节，目前在番茄小说和七猫小说各有一部作品在连载。",
+    "闲下来的时候，我会背着相机走走停停，把夜色里的城市、江南的水与远方山川，安静地收进画面。",
+  ],
+};
+
 export const contact = {
   name: "Jiang",
   wechatQrSrc: "/images/wechat-qr-placeholder.png",
   wechatQrAlt: "Jiang 的微信二维码",
-  socials: [
-    { key: "douyin", label: "抖音", href: "#" },
-    { key: "xiaohongshu", label: "小红书", href: "#" },
-    { key: "github", label: "GitHub", href: "#" },
-  ],
+  /** Only real, working links belong here. Empty list renders 待补充. */
+  socials: [] as { key: string; label: string; href: string }[],
 };
 
 export const navSections = [
-  { id: "novels", label: "番茄与七猫" },
-  { id: "gallery", label: "光影与人间" },
-  { id: "contact", label: "连接与共创" },
+  { id: "top", label: "首页" },
+  { id: "novels", label: "小说作品" },
+  { id: "gallery", label: "风景摄影" },
+  { id: "about", label: "关于我" },
+  { id: "contact", label: "联系" },
 ];

@@ -1,112 +1,76 @@
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Play, AlertCircle, Loader2 } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
-import { videos, galleryItems, type VideoItem, type GalleryItem } from "@/data/site";
+import { galleryItems, type GalleryItem } from "@/data/site";
 
-function VideoCard({ v }: { v: VideoItem }) {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [state, setState] = useState<"poster" | "loading" | "playing" | "error">(
-    "poster",
+export function GallerySection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const isOpen = openIndex !== null;
+
+  const close = useCallback(() => setOpenIndex(null), []);
+  const prev = useCallback(
+    () => setOpenIndex((i) => (i === null ? i : (i - 1 + galleryItems.length) % galleryItems.length)),
+    [],
   );
-  const [imgOk, setImgOk] = useState(true);
+  const next = useCallback(
+    () => setOpenIndex((i) => (i === null ? i : (i + 1) % galleryItems.length)),
+    [],
+  );
 
-  const handlePlay = () => {
-    if (!v.src) {
-      setState("error");
-      return;
-    }
-    setState("loading");
-    const el = videoRef.current;
-    if (!el) return;
-    const p = el.play();
-    if (p && typeof p.then === "function") {
-      p.then(() => setState("playing")).catch(() => setState("error"));
-    }
-  };
-
-  const showPoster = state === "poster" || state === "loading" || state === "error";
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    window.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isOpen, close, prev, next]);
 
   return (
-    <figure className="group relative aspect-[9/16] overflow-hidden rounded-xl border border-white/8 bg-black">
-      {v.src ? (
-        <video
-          ref={videoRef}
-          src={v.src}
-          poster={imgOk ? v.poster : undefined}
-          preload="metadata"
-          playsInline
-          controls={state === "playing"}
-          onLoadedData={() => setState((s) => (s === "loading" ? "playing" : s))}
-          onEnded={() => setState("poster")}
-          onError={() => setState("error")}
-          className={`h-full w-full object-cover ${showPoster ? "opacity-0" : "opacity-100"}`}
-          aria-label={`${v.caption} 视频`}
+    <section id="gallery" className="relative w-full px-6 py-24 sm:py-32">
+      <div className="relative mx-auto max-w-6xl">
+        <SectionHeading eyebrow="Photography · 光影" title="风景摄影">
+          背包与相机走过的地方，安静地留在画面里。
+        </SectionHeading>
+
+        <div className="mt-16 grid grid-cols-12 gap-3 sm:mt-20 sm:gap-4">
+          {galleryItems.map((p, i) => (
+            <PhotoTile key={p.alt} item={p} index={i} onOpen={() => setOpenIndex(i)} />
+          ))}
+        </div>
+      </div>
+
+      {isOpen ? (
+        <Lightbox
+          item={galleryItems[openIndex!]}
+          onClose={close}
+          onPrev={prev}
+          onNext={next}
+          index={openIndex!}
+          total={galleryItems.length}
         />
       ) : null}
-
-      {showPoster ? (
-        <>
-          {imgOk ? (
-            <img
-              src={v.poster}
-              alt={v.caption}
-              loading="lazy"
-              onError={() => setImgOk(false)}
-              className="absolute inset-0 h-full w-full object-cover opacity-90 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
-            />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-neutral-900 to-black text-xs text-muted-foreground">
-              封面加载失败
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-          <div
-            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-            style={{
-              boxShadow:
-                "inset 0 0 0 1px color-mix(in oklab, var(--cyber) 45%, transparent), 0 0 30px color-mix(in oklab, var(--cyber) 20%, transparent)",
-            }}
-          />
-
-          <button
-            type="button"
-            onClick={handlePlay}
-            aria-label={`播放 ${v.caption}`}
-            className="absolute inset-0 flex items-center justify-center focus-visible:outline-none"
-          >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full border border-cyber/60 bg-black/40 text-cyber backdrop-blur transition-all duration-300 group-hover:scale-110 group-hover:border-cyber group-focus-visible:scale-110">
-              {state === "loading" ? (
-                <Loader2 className="h-5 w-5 animate-spin" />
-              ) : state === "error" ? (
-                <AlertCircle className="h-5 w-5" />
-              ) : (
-                <Play className="h-5 w-5 fill-current" />
-              )}
-            </span>
-          </button>
-
-          <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between p-3 text-[10px]">
-            <span className="font-mono-tight text-white/70">{v.label}</span>
-            <span className="text-white/60">{v.caption}</span>
-          </figcaption>
-
-          {state === "error" ? (
-            <div
-              role="status"
-              className="pointer-events-none absolute inset-x-3 top-3 rounded-md border border-white/15 bg-black/70 px-3 py-2 text-[11px] text-foreground/85"
-            >
-              视频暂未接入，配置 <code className="font-mono-tight text-gold">videos[].src</code> 后可播放。
-            </div>
-          ) : null}
-        </>
-      ) : null}
-    </figure>
+    </section>
   );
 }
 
-function PhotoCard({ item, index }: { item: GalleryItem; index: number }) {
-  const [ok, setOk] = useState(true);
+function PhotoTile({
+  item,
+  index,
+  onOpen,
+}: {
+  item: GalleryItem;
+  index: number;
+  onOpen: () => void;
+}) {
   const span =
     item.span === "full"
       ? "col-span-12"
@@ -115,93 +79,102 @@ function PhotoCard({ item, index }: { item: GalleryItem; index: number }) {
         : "col-span-6 md:col-span-4";
 
   return (
-    <motion.figure
-      initial={{ opacity: 0, y: 30 }}
+    <motion.button
+      type="button"
+      onClick={onOpen}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.7, delay: index * 0.06 }}
-      className={`group relative overflow-hidden rounded-xl border border-white/8 bg-neutral-950 ${item.ratio} ${span}`}
+      transition={{ duration: 0.6, delay: index * 0.05 }}
+      aria-label={`查看大图：${item.alt}`}
+      className={`group relative block overflow-hidden bg-neutral-950 ${item.ratio} ${span} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60`}
     >
-      {ok ? (
-        <img
-          src={item.src}
-          alt={item.alt}
-          loading="lazy"
-          onError={() => setOk(false)}
-          className="h-full w-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.04]"
-        />
-      ) : (
-        <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
-          图片暂时无法加载
-        </div>
-      )}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-60" />
-      <figcaption className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-4 sm:p-5">
-        <span className="max-w-[75%] text-sm text-white/90">{item.alt}</span>
-        <span className="font-mono-tight text-gold/80">{item.meta}</span>
-      </figcaption>
-    </motion.figure>
+      <img
+        src={item.src}
+        alt={item.alt}
+        loading="lazy"
+        decoding="async"
+        className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+      />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none">
+        <span className="text-sm text-white/90">{item.alt}</span>
+        <span className="font-mono-tight text-gold/90">{item.meta}</span>
+      </div>
+    </motion.button>
   );
 }
 
-export function GallerySection() {
+function Lightbox({
+  item,
+  onClose,
+  onPrev,
+  onNext,
+  index,
+  total,
+}: {
+  item: GalleryItem;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+  index: number;
+  total: number;
+}) {
   return (
-    <section id="gallery" className="relative w-full px-6 py-32 sm:py-40">
-      {/* faint background */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-40"
-        style={{
-          background:
-            "radial-gradient(ellipse at 20% 30%, color-mix(in oklab, var(--cyber) 8%, transparent), transparent 55%), radial-gradient(ellipse at 80% 70%, color-mix(in oklab, var(--gold) 8%, transparent), transparent 55%)",
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={`大图：${item.alt}`}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-3 sm:p-8"
+      onClick={onClose}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="关闭大图"
+        className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-md border border-white/20 bg-black/60 text-white/90 transition-colors hover:bg-black/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
+      >
+        <X className="h-5 w-5" />
+      </button>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          onPrev();
         }}
-      />
+        aria-label="上一张"
+        className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md border border-white/20 bg-black/60 text-white/90 transition-colors hover:bg-black/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 sm:left-6"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          onNext();
+        }}
+        aria-label="下一张"
+        className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md border border-white/20 bg-black/60 text-white/90 transition-colors hover:bg-black/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 sm:right-6"
+      >
+        <ChevronRight className="h-5 w-5" />
+      </button>
 
-      <div className="relative mx-auto max-w-6xl">
-        <SectionHeading eyebrow="Visual Sandbox · 沙盒" title="光影与人间">
-          左侧是 AI 撕裂的机甲宇宙，右侧是镜头下的江南与钢铁。
-        </SectionHeading>
-
-        {/* AI Director row */}
-        <div className="mt-20">
-          <div className="mb-6 flex items-baseline justify-between">
-            <h3 className="font-display text-xl text-foreground">AI 导演</h3>
-            <span className="font-mono-tight text-cyber/80">Mecha · Morph</span>
-          </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
-            {videos.map((v) => (
-              <VideoCard key={v.id} v={v} />
-            ))}
-          </div>
-          <p className="mt-6 max-w-xl text-sm leading-relaxed text-muted-foreground">
-            硬核机甲形变短片，每一帧都由 AI 与手工调度共同雕刻。点击封面开始播放；视频源可在
-            <code className="mx-1 font-mono-tight text-gold/90">src/data/site.ts</code>
-            中替换。
-          </p>
-        </div>
-
-        {/* Photography row */}
-        <div className="mt-24">
-          <div className="mb-6 flex items-baseline justify-between">
-            <h3 className="font-display text-xl text-foreground">镜头切面</h3>
-            <span className="font-mono-tight text-gold/80">Photography</span>
-          </div>
-          <div className="grid grid-cols-12 gap-4 sm:gap-5">
-            {galleryItems.map((p, i) => (
-              <PhotoCard key={p.alt} item={p} index={i} />
-            ))}
-          </div>
-        </div>
-
-        <motion.blockquote
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mx-auto mt-24 max-w-3xl text-center font-display text-2xl italic text-muted-foreground sm:text-3xl"
-        >
-          “在钢铁的褶皱里，打捞一盏灯。”
-        </motion.blockquote>
-      </div>
-    </section>
+      <figure
+        onClick={(e) => e.stopPropagation()}
+        className="flex max-h-full max-w-full flex-col items-center gap-3"
+      >
+        <img
+          src={item.src}
+          alt={item.alt}
+          className="max-h-[82vh] max-w-full object-contain"
+        />
+        <figcaption className="flex flex-wrap items-center justify-center gap-3 text-xs text-white/70">
+          <span>{item.alt}</span>
+          <span className="font-mono-tight text-gold/80">{item.meta}</span>
+          <span className="text-white/50">
+            {index + 1} / {total}
+          </span>
+        </figcaption>
+      </figure>
+    </div>
   );
 }
