@@ -77,28 +77,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "白给的艺术 · Jiang 的创作宇宙" },
+      { title: "Jiang 的创作世界 · 小说创作与风景摄影" },
       {
         name: "description",
         content:
-          "Jiang 的个人创作官网：番茄与七猫连载中的两个故事世界，AI 影像与镜头切面，以及商业合作入口。",
+          "Jiang 的个人创作作品集：两部分别在番茄小说与七猫小说连载的长篇，以及一路走过的风景摄影。",
       },
       { name: "author", content: "Jiang" },
-      { property: "og:title", content: "白给的艺术 · Jiang 的创作宇宙" },
+      { property: "og:title", content: "Jiang 的创作世界 · 小说创作与风景摄影" },
       {
         property: "og:description",
-        content: "以文字构建重生宇宙，以 AI 撕裂视觉边界。",
+        content: "在文字中构建世界，在光影里记录远方。",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "白给的艺术 · Jiang 的创作宇宙" },
+      { name: "twitter:title", content: "Jiang 的创作世界 · 小说创作与风景摄影" },
       {
         name: "twitter:description",
-        content: "以文字构建重生宇宙，以 AI 撕裂视觉边界。",
+        content: "在文字中构建世界，在光影里记录远方。",
       },
-      { name: "description", content: "Jiang 的个人创作官网：番茄与七猫连载中的两个故事世界，AI 影像与镜头切面。" },
-      { property: "og:description", content: "Jiang 的个人创作官网：番茄与七猫连载中的两个故事世界，AI 影像与镜头切面。" },
-      { name: "twitter:description", content: "Jiang 的个人创作官网：番茄与七猫连载中的两个故事世界，AI 影像与镜头切面。" },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d20d2b86-eb75-484e-977d-91faa6de8d95/id-preview-c1586955--4c9a1f56-ca99-4cd3-b8ba-1ea7c5c64493.lovable.app-1783182695063.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d20d2b86-eb75-484e-977d-91faa6de8d95/id-preview-c1586955--4c9a1f56-ca99-4cd3-b8ba-1ea7c5c64493.lovable.app-1783182695063.png" },
     ],
@@ -116,7 +113,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap",
       },
     ],
   }),
