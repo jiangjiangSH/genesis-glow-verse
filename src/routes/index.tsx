@@ -3,6 +3,7 @@ import { Hero } from "@/components/landing/Hero";
 import { NavBar } from "@/components/landing/NavBar";
 import { NovelShowcase } from "@/components/landing/NovelShowcase";
 import { GallerySection } from "@/components/landing/GallerySection";
+import { AboutSection } from "@/components/landing/AboutSection";
 import { ContactSection } from "@/components/landing/ContactSection";
 import { ContactDialogProvider } from "@/components/landing/ContactDialogContext";
 
@@ -18,6 +19,7 @@ function Index() {
         <Hero />
         <NovelShowcase />
         <GallerySection />
+        <AboutSection />
         <ContactSection />
       </main>
     </ContactDialogProvider>
