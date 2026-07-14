@@ -125,7 +125,11 @@ export const about = {
 
 export const contact = {
   name: "Jiang",
-  wechatQrSrc: "/images/wechat-qr-placeholder.png",
+  /**
+   * Real WeChat QR image path. Leave empty until a real QR is provided —
+   * the UI shows a "待补充" state instead of displaying a placeholder.
+   */
+  wechatQrSrc: "",
   wechatQrAlt: "Jiang 的微信二维码",
   /** Only real, working links belong here. Empty list renders 待补充. */
   socials: [] as { key: string; label: string; href: string }[],
