@@ -7,6 +7,7 @@ import { useContactDialog } from "./ContactDialogContext";
 export function ContactSection() {
   const { open: openContact } = useContactDialog();
   const hasSocials = contact.socials.length > 0;
+  const hasWechat = Boolean(contact.wechatQrSrc);
 
   return (
     <section id="contact" className="relative w-full px-6 py-24 sm:py-32">
@@ -24,14 +25,26 @@ export function ContactSection() {
             如果你对小说改编、摄影使用或单纯想聊聊，欢迎通过下面的方式找到我。
           </p>
 
-          <button
-            type="button"
-            onClick={openContact}
-            className="inline-flex h-11 items-center gap-2 whitespace-nowrap rounded-md border border-gold/50 bg-gold/10 px-6 text-sm leading-none text-gold transition-colors duration-200 hover:bg-gold/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 motion-reduce:transition-none"
-          >
-            <QrCode className="h-4 w-4" />
-            联系我 · 微信二维码
-          </button>
+          {hasWechat ? (
+            <button
+              type="button"
+              onClick={openContact}
+              className="inline-flex h-11 items-center gap-2 whitespace-nowrap rounded-md border border-gold/50 bg-gold/10 px-6 text-sm leading-none text-gold transition-colors duration-200 hover:bg-gold/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 motion-reduce:transition-none"
+            >
+              <QrCode className="h-4 w-4" />
+              联系我 · 微信二维码
+            </button>
+          ) : (
+            <span
+              className="inline-flex h-11 items-center gap-2 whitespace-nowrap rounded-md border border-dashed border-white/15 px-6 text-sm leading-none text-muted-foreground"
+              role="status"
+              aria-live="polite"
+              title="微信二维码待补充"
+            >
+              <QrCode className="h-4 w-4" />
+              微信二维码待补充
+            </span>
+          )}
 
           {hasSocials ? (
             <ul className="mt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-foreground/80">
