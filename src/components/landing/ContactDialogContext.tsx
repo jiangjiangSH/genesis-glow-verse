@@ -25,6 +25,7 @@ export function useContactDialog() {
 export function ContactDialogProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLElement | null>(null);
+  const hasQr = Boolean(contact.wechatQrSrc);
 
   const open = useCallback(() => {
     triggerRef.current = (typeof document !== "undefined" ? (document.activeElement as HTMLElement | null) : null);
@@ -54,25 +55,41 @@ export function ContactDialogProvider({ children }: { children: ReactNode }) {
               联系 {contact.name}
             </DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
-              扫码添加微信，沟通合作与创作交流。
+              {hasQr
+                ? "扫码添加微信，沟通合作与创作交流。"
+                : "微信二维码待补充，稍后开放。"}
             </DialogDescription>
           </DialogHeader>
 
           <div className="mx-auto w-full max-w-[16rem]">
-            <div className="relative aspect-square overflow-hidden rounded-xl border border-white/10 bg-white p-3">
-              <img
-                src={contact.wechatQrSrc}
-                alt={contact.wechatQrAlt}
-                width={512}
-                height={512}
-                className="h-full w-full object-contain"
-              />
-            </div>
+            {hasQr ? (
+              <div className="relative aspect-square overflow-hidden rounded-lg border border-white/10 bg-white p-3">
+                <img
+                  src={contact.wechatQrSrc}
+                  alt={contact.wechatQrAlt}
+                  width={512}
+                  height={512}
+                  className="h-full w-full object-contain"
+                />
+              </div>
+            ) : (
+              <div
+                className="relative flex aspect-square items-center justify-center rounded-lg border border-dashed border-white/15 bg-white/[0.02] p-6 text-center text-sm leading-relaxed text-muted-foreground"
+                role="status"
+                aria-live="polite"
+              >
+                微信二维码待补充
+                <br />
+                稍后由 Jiang 更新
+              </div>
+            )}
           </div>
 
-          <p className="text-center font-mono-tight text-gold/80">
-            WeChat · {contact.name}
-          </p>
+          {hasQr ? (
+            <p className="text-center font-mono-tight text-gold/80">
+              WeChat · {contact.name}
+            </p>
+          ) : null}
         </DialogContent>
       </Dialog>
     </ContactDialogCtx.Provider>
