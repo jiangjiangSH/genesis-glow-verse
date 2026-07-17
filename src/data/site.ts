@@ -1,4 +1,4 @@
-import novel1 from "@/assets/novel-1-cover.png";
+import novel1 from "@/assets/novel-1-cover.jpg";
 import novel2 from "@/assets/novel-2.jpg";
 import mecha1 from "@/assets/mecha-1.jpg";
 import mecha2 from "@/assets/mecha-2.jpg";
