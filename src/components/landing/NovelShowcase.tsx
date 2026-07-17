@@ -21,13 +21,14 @@ export function NovelShowcase() {
               transition={{ duration: 0.6, delay: i * 0.05, ease: "easeOut" }}
               className="grid gap-8 md:grid-cols-[minmax(0,220px)_minmax(0,1fr)] md:gap-12"
             >
-              <div className="mx-auto w-full max-w-[220px] md:mx-0">
+              <div className="mx-auto w-full max-w-[260px] md:mx-0">
                 <div className="relative aspect-[2/3] overflow-hidden rounded-sm border border-white/10 bg-neutral-950 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.9)]">
                   <img
                     src={n.cover}
                     alt={n.coverAlt}
                     loading="lazy"
-                    className="h-full w-full object-cover"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-contain"
                   />
                 </div>
               </div>

@@ -1,11 +1,8 @@
-import novel1 from "@/assets/novel-1.jpg";
+import novel1 from "@/assets/novel-1-cover.jpg";
 import novel2 from "@/assets/novel-2.jpg";
 import mecha1 from "@/assets/mecha-1.jpg";
 import mecha2 from "@/assets/mecha-2.jpg";
 import mecha3 from "@/assets/mecha-3.jpg";
-import photo1 from "@/assets/photo-1.jpg";
-import photo2 from "@/assets/photo-2.jpg";
-import photo3 from "@/assets/photo-3.jpg";
 import photo4 from "@/assets/photo-4.jpg";
 
 export type Platform = "番茄小说" | "七猫小说";
@@ -77,41 +74,77 @@ export interface GalleryItem {
   src: string;
   alt: string;
   meta: string;
-  /** Layout weight on the gallery grid. */
-  span: "full" | "wide" | "tall";
+  /** Column span on the 12-col editorial grid at md+. */
+  span: "full" | "half" | "third" | "twoThird" | "fiveTwelfth" | "sevenTwelfth";
   ratio: string;
+  width: number;
+  height: number;
 }
 
+/**
+ * Vivo 摄影公开作品，本地静态存放于 public/images/photography/
+ * 原始比例保留，alt 文本使用中性画面描述。
+ */
 export const galleryItems: GalleryItem[] = [
   {
-    src: photo1,
-    alt: "雨夜霓虹街，独行者背影",
-    meta: "City · Night",
+    src: "/images/photography/vivo-3.webp",
+    alt: "开阔的城市远景，天空占据画面上部",
+    meta: "City · Skyline",
     span: "full",
-    ratio: "aspect-[16/9]",
+    ratio: "aspect-[598/384]",
+    width: 598,
+    height: 384,
   },
   {
-    src: photo2,
-    alt: "舞台聚光下的孤独轮廓",
-    meta: "Stage · Light",
-    span: "tall",
-    ratio: "aspect-[4/5]",
+    src: "/images/photography/vivo-2.webp",
+    alt: "竖幅光影记录",
+    meta: "Light · Frame",
+    span: "third",
+    ratio: "aspect-[597/883]",
+    width: 597,
+    height: 883,
   },
   {
-    src: photo3,
-    alt: "雨夜车窗边的暖调人像",
-    meta: "Portrait · Rain",
-    span: "tall",
-    ratio: "aspect-[4/5]",
+    src: "/images/photography/vivo-6.webp",
+    alt: "竖幅街巷光影",
+    meta: "Street · Light",
+    span: "third",
+    ratio: "aspect-[597/881]",
+    width: 597,
+    height: 881,
   },
   {
-    src: photo4,
-    alt: "江南水乡与现代天际线的对望",
-    meta: "Jiangnan · Skyline",
-    span: "full",
-    ratio: "aspect-[16/9]",
+    src: "/images/photography/vivo-5.webp",
+    alt: "竖幅生活切片",
+    meta: "Life · Slice",
+    span: "third",
+    ratio: "aspect-[600/886]",
+    width: 600,
+    height: 886,
+  },
+  {
+    src: "/images/photography/vivo-1.webp",
+    alt: "横幅景观记录",
+    meta: "Scene · Wide",
+    span: "half",
+    ratio: "aspect-[599/516]",
+    width: 599,
+    height: 516,
+  },
+  {
+    src: "/images/photography/vivo-4.webp",
+    alt: "横幅光影切片",
+    meta: "Light · Wide",
+    span: "half",
+    ratio: "aspect-[598/513]",
+    width: 598,
+    height: 513,
   },
 ];
+
+/** 外部完整作品页（vivo 摄影） */
+export const vivoGalleryUrl =
+  "https://gallery.vivo.com.cn/galleryh5static/index.html?#/user/661532516758";
 
 export const about = {
   heading: "关于我",
