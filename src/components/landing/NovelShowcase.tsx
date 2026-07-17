@@ -46,9 +46,9 @@ export function NovelShowcase() {
                   <span className="text-cyber/80">{n.status}</span>
                 </div>
 
-                <h3 className="mt-4 break-words font-display text-2xl leading-snug text-foreground sm:text-3xl">
+                <h2 className="mt-4 break-words font-display text-2xl leading-snug text-foreground sm:text-3xl">
                   《{n.title}》
-                </h3>
+                </h2>
                 <p className="mt-2 text-sm text-muted-foreground">{n.genre}</p>
                 <p className="mt-4 text-[15px] italic leading-relaxed text-foreground/85">
                   {n.tagline}
